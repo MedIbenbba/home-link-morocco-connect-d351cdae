@@ -9,7 +9,218 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      bookings: {
+        Row: {
+          booking_date: string | null
+          created_at: string | null
+          end_date: string | null
+          id: string
+          landlord_id: string
+          monthly_rent: number
+          property_id: string
+          security_deposit: number | null
+          start_date: string
+          status: string
+          tenant_id: string
+          updated_at: string | null
+        }
+        Insert: {
+          booking_date?: string | null
+          created_at?: string | null
+          end_date?: string | null
+          id?: string
+          landlord_id: string
+          monthly_rent: number
+          property_id: string
+          security_deposit?: number | null
+          start_date: string
+          status?: string
+          tenant_id: string
+          updated_at?: string | null
+        }
+        Update: {
+          booking_date?: string | null
+          created_at?: string | null
+          end_date?: string | null
+          id?: string
+          landlord_id?: string
+          monthly_rent?: number
+          property_id?: string
+          security_deposit?: number | null
+          start_date?: string
+          status?: string
+          tenant_id?: string
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          address: string | null
+          avatar_url: string | null
+          city: string | null
+          created_at: string | null
+          date_of_birth: string | null
+          email: string
+          first_name: string | null
+          id: string
+          last_name: string | null
+          phone: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string | null
+        }
+        Insert: {
+          address?: string | null
+          avatar_url?: string | null
+          city?: string | null
+          created_at?: string | null
+          date_of_birth?: string | null
+          email: string
+          first_name?: string | null
+          id: string
+          last_name?: string | null
+          phone?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string | null
+        }
+        Update: {
+          address?: string | null
+          avatar_url?: string | null
+          city?: string | null
+          created_at?: string | null
+          date_of_birth?: string | null
+          email?: string
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          phone?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      properties: {
+        Row: {
+          address: string
+          amenities: string[] | null
+          area_sqm: number | null
+          bathrooms: number | null
+          bedrooms: number | null
+          city: string
+          created_at: string | null
+          description: string | null
+          id: string
+          images: string[] | null
+          is_available: boolean | null
+          is_furnished: boolean | null
+          is_verified: boolean | null
+          landlord_id: string
+          price_per_month: number
+          property_type: string
+          title: string
+          updated_at: string | null
+        }
+        Insert: {
+          address: string
+          amenities?: string[] | null
+          area_sqm?: number | null
+          bathrooms?: number | null
+          bedrooms?: number | null
+          city: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          images?: string[] | null
+          is_available?: boolean | null
+          is_furnished?: boolean | null
+          is_verified?: boolean | null
+          landlord_id: string
+          price_per_month: number
+          property_type: string
+          title: string
+          updated_at?: string | null
+        }
+        Update: {
+          address?: string
+          amenities?: string[] | null
+          area_sqm?: number | null
+          bathrooms?: number | null
+          bedrooms?: number | null
+          city?: string
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          images?: string[] | null
+          is_available?: boolean | null
+          is_furnished?: boolean | null
+          is_verified?: boolean | null
+          landlord_id?: string
+          price_per_month?: number
+          property_type?: string
+          title?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      reviews: {
+        Row: {
+          booking_id: string | null
+          comment: string | null
+          created_at: string | null
+          id: string
+          property_id: string | null
+          rating: number
+          review_type: string
+          reviewee_id: string
+          reviewer_id: string
+        }
+        Insert: {
+          booking_id?: string | null
+          comment?: string | null
+          created_at?: string | null
+          id?: string
+          property_id?: string | null
+          rating: number
+          review_type: string
+          reviewee_id: string
+          reviewer_id: string
+        }
+        Update: {
+          booking_id?: string | null
+          comment?: string | null
+          created_at?: string | null
+          id?: string
+          property_id?: string | null
+          rating?: number
+          review_type?: string
+          reviewee_id?: string
+          reviewer_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reviews_booking_id_fkey"
+            columns: ["booking_id"]
+            isOneToOne: false
+            referencedRelation: "bookings"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "reviews_property_id_fkey"
+            columns: ["property_id"]
+            isOneToOne: false
+            referencedRelation: "properties"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
@@ -18,7 +229,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      user_role: "tenant" | "landlord" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -133,6 +344,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      user_role: ["tenant", "landlord", "admin"],
+    },
   },
 } as const

@@ -2,8 +2,19 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Home, User } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const CallToAction = () => {
+  const navigate = useNavigate();
+
+  const handleTenantClick = () => {
+    navigate('/properties');
+  };
+
+  const handleLandlordClick = () => {
+    navigate('/auth');
+  };
+
   return (
     <section className="py-20 bg-gradient-to-br from-orange-500 to-red-600">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -25,7 +36,7 @@ const CallToAction = () => {
               <p className="text-orange-100">
                 Trouvez votre prochaine maison parmi des centaines d'offres vérifiées
               </p>
-              <Button className="bg-white text-orange-500 hover:bg-gray-100 w-full">
+              <Button onClick={handleTenantClick} className="bg-white text-orange-500 hover:bg-gray-100 w-full">
                 Commencer ma recherche
               </Button>
             </div>
@@ -38,7 +49,7 @@ const CallToAction = () => {
               <p className="text-orange-100">
                 Mettez votre bien en location et trouvez des locataires de qualité
               </p>
-              <Button className="bg-white text-orange-500 hover:bg-gray-100 w-full">
+              <Button onClick={handleLandlordClick} className="bg-white text-orange-500 hover:bg-gray-100 w-full">
                 Publier mon annonce
               </Button>
             </div>

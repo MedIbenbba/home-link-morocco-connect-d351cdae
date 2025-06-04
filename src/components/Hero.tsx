@@ -1,9 +1,25 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Search, MapPin, Home } from 'lucide-react';
 import { Input } from '@/components/ui/input';
+import { useNavigate } from 'react-router-dom';
 
 const Hero = () => {
+  const [searchLocation, setSearchLocation] = useState('');
+  const [propertyType, setPropertyType] = useState('');
+  const [budget, setBudget] = useState('');
+  const navigate = useNavigate();
+
+  const handleSearch = () => {
+    const params = new URLSearchParams();
+    if (searchLocation) params.append('location', searchLocation);
+    if (propertyType) params.append('type', propertyType);
+    if (budget) params.append('budget', budget);
+    
+    navigate(`/properties?${params.toString()}`);
+  };
+
   return (
     <div className="relative pt-16 bg-gradient-to-br from-orange-50 via-white to-red-50 moroccan-pattern">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
@@ -31,31 +47,42 @@ const Hero = () => {
                     <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
                     <Input 
                       placeholder="Casablanca, Rabat..."
+                      value={searchLocation}
+                      onChange={(e) => setSearchLocation(e.target.value)}
                       className="pl-10 border-gray-200 focus:border-orange-500"
                     />
                   </div>
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Type de bien</label>
-                  <select className="w-full h-10 px-3 border border-gray-200 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500">
-                    <option>Appartement</option>
-                    <option>Maison</option>
-                    <option>Studio</option>
-                    <option>Villa</option>
+                  <select 
+                    value={propertyType}
+                    onChange={(e) => setPropertyType(e.target.value)}
+                    className="w-full h-10 px-3 border border-gray-200 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  >
+                    <option value="">Tous les types</option>
+                    <option value="apartment">Appartement</option>
+                    <option value="house">Maison</option>
+                    <option value="studio">Studio</option>
+                    <option value="villa">Villa</option>
                   </select>
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Budget (MAD)</label>
-                  <select className="w-full h-10 px-3 border border-gray-200 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500">
-                    <option>Tous les prix</option>
-                    <option>Moins de 3 000</option>
-                    <option>3 000 - 6 000</option>
-                    <option>6 000 - 10 000</option>
-                    <option>Plus de 10 000</option>
+                  <select 
+                    value={budget}
+                    onChange={(e) => setBudget(e.target.value)}
+                    className="w-full h-10 px-3 border border-gray-200 rounded-md focus:border-orange-500 focus:ring-1 focus:ring-orange-500"
+                  >
+                    <option value="">Tous les prix</option>
+                    <option value="3000">Moins de 3 000</option>
+                    <option value="6000">3 000 - 6 000</option>
+                    <option value="10000">6 000 - 10 000</option>
+                    <option value="999999">Plus de 10 000</option>
                   </select>
                 </div>
               </div>
-              <Button className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white h-12">
+              <Button onClick={handleSearch} className="w-full mt-4 bg-orange-500 hover:bg-orange-600 text-white h-12">
                 <Search className="h-4 w-4 mr-2" />
                 Rechercher
               </Button>
@@ -92,7 +119,6 @@ const Hero = () => {
               </div>
             </div>
             
-            {/* Floating cards */}
             <div className="absolute -top-4 -left-4 bg-white p-4 rounded-xl shadow-lg">
               <div className="flex items-center space-x-2">
                 <div className="w-2 h-2 bg-green-500 rounded-full"></div>
