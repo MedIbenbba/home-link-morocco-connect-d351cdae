@@ -23,7 +23,7 @@ interface Property {
   profiles?: {
     first_name: string;
     last_name: string;
-  };
+  } | null;
 }
 
 const Properties = () => {
@@ -39,8 +39,19 @@ const Properties = () => {
       let query = supabase
         .from('properties')
         .select(`
-          *,
-          profiles:landlord_id (
+          id,
+          title,
+          address,
+          city,
+          price_per_month,
+          property_type,
+          bedrooms,
+          bathrooms,
+          area_sqm,
+          is_verified,
+          images,
+          landlord_id,
+          profiles:profiles!properties_landlord_id_fkey (
             first_name,
             last_name
           )
@@ -62,6 +73,7 @@ const Properties = () => {
       const { data, error } = await query.order('created_at', { ascending: false });
 
       if (error) {
+        console.error('Properties query error:', error);
         toast({
           title: "Erreur",
           description: "Impossible de charger les propriétés",
