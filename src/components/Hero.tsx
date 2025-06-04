@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Search, MapPin } from 'lucide-react';
+import { Search, MapPin, Home } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 
 const Hero = () => {
