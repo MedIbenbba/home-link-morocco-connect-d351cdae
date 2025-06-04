@@ -51,7 +51,7 @@ const Properties = () => {
           is_verified,
           images,
           landlord_id,
-          profiles:profiles!properties_landlord_id_fkey (
+          profiles!inner (
             first_name,
             last_name
           )
